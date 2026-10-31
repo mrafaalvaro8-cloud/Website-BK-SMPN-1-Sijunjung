@@ -40,45 +40,45 @@ export default function QuestionnairesPage() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Kuesioner管理</h1>
+        <h1 className="text-2xl font-bold">Kelola Kuesioner</h1>
         <button onClick={() => setShowCreate(!showCreate)} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-          {showCreate ? '取消' : '+ 新建Kuesioner'}
+          {showCreate ? 'Batal' : '+ Buat Kuesioner'}
         </button>
       </div>
 
       {showCreate && (
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <input className="border rounded-lg px-3 py-2 w-full mb-3" placeholder="标题" value={title} onChange={e => setTitle(e.target.value)} />
-          <textarea className="border rounded-lg px-3 py-2 w-full mb-3" placeholder="描述（可选）" value={description} onChange={e => setDescription(e.target.value)} />
+          <input className="border rounded-lg px-3 py-2 w-full mb-3" placeholder="Judul" value={title} onChange={e => setTitle(e.target.value)} />
+          <textarea className="border rounded-lg px-3 py-2 w-full mb-3" placeholder="Deskripsi (opsional)" value={description} onChange={e => setDescription(e.target.value)} />
           <div className="grid grid-cols-2 gap-4 mb-4">
             <select className="border rounded-lg px-3 py-2" value={classId} onChange={e => setClassId(e.target.value)}>
-              <option value="all">所有班级</option>
+              <option value="all">Semua Kelas</option>
               {CLASSES.flatMap(({ grade, sections }) => sections.map(s => (
                 <option key={`${grade}${s}`}>{grade}{s}</option>
               )))}
             </select>
             <input type="date" className="border rounded-lg px-3 py-2" value={endsAt} onChange={e => setEndsAt(e.target.value)} />
           </div>
-          <button onClick={handleCreate} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">创建</button>
+          <button onClick={handleCreate} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Buat</button>
         </div>
       )}
 
       <div className="space-y-3">
         {list.length === 0 ? (
-          <p className="text-gray-500">暂无Kuesioner</p>
+          <p className="text-gray-500">Belum ada kuesioner</p>
         ) : list.map((q) => (
           <div key={q.id} className="bg-white rounded-xl border border-gray-200 p-5 flex justify-between items-center">
             <div>
               <h3 className="font-semibold">{q.title}</h3>
               <p className="text-sm text-gray-500 mt-1">
-                {q.class_id ? `班级: ${q.class_id}` : '全校'} · 截止: {new Date(q.ends_at).toLocaleDateString('id')}
+                {q.class_id ? `Kelas: ${q.class_id}` : 'Semua Kelas'} · Batas: {new Date(q.ends_at).toLocaleDateString('id')}
               </p>
             </div>
             <button
               onClick={() => toggleActive(q.id, q.is_active)}
               className={`px-3 py-1.5 rounded-lg text-sm ${q.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
             >
-              {q.is_active ? '已启用' : '已停用'}
+              {q.is_active ? 'Aktif' : 'Nonaktif'}
             </button>
           </div>
         ))}

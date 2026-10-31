@@ -41,7 +41,7 @@ export default function AttendancePage() {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-bold mb-6">考勤与EWS</h1>
+      <h1 className="text-2xl font-bold mb-6">Absensi & EWS</h1>
       <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6 flex gap-4 items-center flex-wrap">
         <select className="border rounded-lg px-3 py-2" value={selectedClass} onChange={e => setSelectedClass(e.target.value)}>
           {CLASSES.flatMap(({ grade, sections }) => sections.map(s => (
@@ -49,11 +49,11 @@ export default function AttendancePage() {
           )))}
         </select>
         <input type="date" className="border rounded-lg px-3 py-2" value={date} onChange={e => setDate(e.target.value)} />
-        <button onClick={() => { /* re-fetch */ }} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">查询</button>
+        <button onClick={() => { /* re-fetch */ }} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Muat Ulang</button>
       </div>
 
       <div className="grid grid-cols-4 gap-4 mb-6">
-        {[['hadir', '出勤', 'bg-green-100 text-green-700'], ['alpha', '缺勤', 'bg-red-100 text-red-700'], ['sakit', '病假', 'bg-yellow-100 text-yellow-700'], ['izin', '事假', 'bg-blue-100 text-blue-700']].map(([key, label, cls]) => (
+        {[['hadir', 'Hadir', 'bg-green-100 text-green-700'], ['alpha', 'Alpha', 'bg-red-100 text-red-700'], ['sakit', 'Sakit', 'bg-yellow-100 text-yellow-700'], ['izin', 'Izin', 'bg-blue-100 text-blue-700']].map(([key, label, cls]) => (
           <div key={key} className={`${cls} rounded-lg p-4 text-center`}>
             <div className="text-2xl font-bold">{stats[key] || 0}</div>
             <div className="text-sm">{label}</div>
@@ -62,17 +62,17 @@ export default function AttendancePage() {
       </div>
 
       {loading ? (
-        <p className="text-gray-500">加载中...</p>
+        <p className="text-gray-500">Memuat...</p>
       ) : records.length === 0 ? (
-        <p className="text-gray-500">暂无数据</p>
+        <p className="text-gray-500">Belum ada data</p>
       ) : (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-left px-4 py-3 font-medium text-gray-500">学生</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-500">状态</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-500">操作</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500">Siswa</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -86,7 +86,7 @@ export default function AttendancePage() {
                       r.status === 'sakit' ? 'bg-yellow-100 text-yellow-700' :
                       'bg-blue-100 text-blue-700'
                     }`}>
-                      {{ hadir: '出勤', alpha: '缺勤', sakit: '病假', izin: '事假' }[r.status as string]}
+                      {{ hadir: 'Hadir', alpha: 'Alpha', sakit: 'Sakit', izin: 'Izin' }[r.status as string]}
                     </span>
                   </td>
                   <td className="px-4 py-3">
@@ -94,7 +94,7 @@ export default function AttendancePage() {
                       {['hadir', 'alpha', 'sakit', 'izin'].map(s => (
                         <button key={s} onClick={() => updateRecord(r.id, s)}
                           className={`px-2 py-1 rounded text-xs ${r.status === s ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-                          {{ hadir: '出', alpha: '缺', sakit: '病', izin: '事' }[s]}
+                          {{ hadir: 'Hadir', alpha: 'Alpha', sakit: 'Sakit', izin: 'Izin' }[s]}
                         </button>
                       ))}
                     </div>

@@ -35,8 +35,8 @@ export default function StudentsPage() {
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">学生名册</h1>
-        <span className="text-sm text-gray-500">共 {students.length} 名学生</span>
+        <h1 className="text-2xl font-bold">Daftar Siswa</h1>
+        <span className="text-sm text-gray-500">Total {students.length} siswa</span>
       </div>
 
       <div className="mb-6 flex gap-2 flex-wrap">
@@ -50,7 +50,7 @@ export default function StudentsPage() {
                 : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
             }`}
           >
-            {c === 'all' ? '全部' : c}
+            {c === 'all' ? 'Semua' : c}
             {c !== 'all' && totalByClass[c] != null && (
               <span className="ml-1 text-xs opacity-70">({totalByClass[c]})</span>
             )}
@@ -59,18 +59,18 @@ export default function StudentsPage() {
       </div>
 
       {loading ? (
-        <p className="text-gray-500">加载中...</p>
+        <p className="text-gray-500">Memuat...</p>
       ) : students.length === 0 ? (
-        <p className="text-gray-500">暂无学生数据</p>
+        <p className="text-gray-500">Belum ada data siswa</p>
       ) : (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-left px-4 py-3 font-medium text-gray-500">姓名</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-500">班级</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-500">电话</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-500">备注</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500">Nama</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500">Kelas</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500">Telepon</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500">Catatan</th>
               </tr>
             </thead>
             <tbody>

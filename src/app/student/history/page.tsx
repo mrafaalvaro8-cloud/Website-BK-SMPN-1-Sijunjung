@@ -32,11 +32,11 @@ export default function HistoryPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-bold mb-6">咨询记录</h1>
+      <h1 className="text-2xl font-bold mb-6">Riwayat Konseling</h1>
       {loading ? (
-        <p className="text-gray-500">加载中...</p>
+        <p className="text-gray-500">Memuat...</p>
       ) : sessions.length === 0 ? (
-        <p className="text-gray-500">暂无咨询记录</p>
+        <p className="text-gray-500">Belum ada riwayat konseling</p>
       ) : (
         <div className="space-y-4">
           {sessions.map((s) => (
@@ -45,12 +45,12 @@ export default function HistoryPage() {
                 <div>
                   <h3 className="font-semibold text-gray-900">{s.title}</h3>
                   <p className="text-sm text-gray-500 mt-1">
-                    {new Date(s.scheduled_at).toLocaleDateString('id')} · {s.session_type === 'individual' ? '一对一' : '团体'}
+                    {new Date(s.scheduled_at).toLocaleDateString('id')} · {s.session_type === 'individual' ? 'Individu' : 'Kelompok'}
                   </p>
                   {s.notes && <p className="text-sm text-gray-400 mt-2">{s.notes}</p>}
                 </div>
                 <span className={`px-3 py-1 rounded-full text-sm ${statusColor[s.status] || 'bg-gray-100'}`}>
-                  {{ scheduled: '已预约', in_progress: '进行中', completed: '已完成', cancelled: '已取消' }[s.status] || s.status}
+                  {{ scheduled: 'Dijadwalkan', in_progress: 'Berlangsung', completed: 'Selesai', cancelled: 'Dibatalkan' }[s.status] || s.status}
                 </span>
               </div>
             </div>

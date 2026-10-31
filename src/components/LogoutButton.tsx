@@ -17,7 +17,7 @@ export default function LogoutButton() {
       onClick={handleLogout}
       className="px-3 py-1.5 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
     >
-      退出登录
+      Keluar
     </button>
   );
 }

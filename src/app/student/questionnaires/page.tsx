@@ -32,11 +32,11 @@ export default function QuestionnairesPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-bold mb-6">我的Kuesioner</h1>
+      <h1 className="text-2xl font-bold mb-6">Kuesioner Saya</h1>
       {loading ? (
-        <p className="text-gray-500">加载中...</p>
+        <p className="text-gray-500">Memuat...</p>
       ) : questionnaires.length === 0 ? (
-        <p className="text-gray-500">当前没有待完成的Kuesioner</p>
+        <p className="text-gray-500">Tidak ada kuesioner yang harus diisi</p>
       ) : (
         <div className="space-y-4">
           {questionnaires.map((q) => (
@@ -44,9 +44,9 @@ export default function QuestionnairesPage() {
               <h3 className="font-semibold text-gray-900 text-lg">{q.title}</h3>
               <p className="text-gray-500 text-sm mt-1">{q.description}</p>
               <div className="mt-4 flex items-center gap-4">
-                <span className="text-sm text-gray-400">截止日期: {new Date(q.ends_at).toLocaleDateString('id')}</span>
+                <span className="text-sm text-gray-400">Batas akhir: {new Date(q.ends_at).toLocaleDateString('id')}</span>
                 <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-                  填写
+                  Isi
                 </button>
               </div>
             </div>
