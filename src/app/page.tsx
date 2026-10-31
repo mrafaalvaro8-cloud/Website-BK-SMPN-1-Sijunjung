@@ -1,16 +1,8 @@
-import { createSupabaseClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
-exports.dynamic = 'force-dynamic';
-export default async function HomePage() {
-  const supabase = await createSupabaseClient();
-  const { data: { session } } = await supabase.auth.getSession();
+export const dynamic = 'force-dynamic';
 
-  if (session) {
-    redirect('/dashboard');
-  }
-
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800">
       <nav className="px-6 py-4 flex justify-between items-center">
@@ -68,9 +60,6 @@ export default async function HomePage() {
             <Link href="/login" className="px-8 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-colors">
               Mulai Sekarang
             </Link>
-            <a href="#info" className="px-8 py-3 border-2 border-white/30 text-white rounded-xl font-semibold hover:bg-white/10 transition-colors">
-              Tentang BK
-            </a>
           </div>
         </div>
       </main>

@@ -1,34 +1,34 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
-let _serverClient: ReturnType<typeof createServerClient> | null = null;
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 export async function createSupabaseClient() {
-  if (_serverClient) return _serverClient;
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    throw new Error('Missing SUPABASE_URL or SUPABASE_ANON_KEY');
+  }
   const cookieStore = await cookies();
-  _serverClient = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll(); },
-        setAll(cookiesToSet) {
-          for (const { name, value, options } of cookiesToSet) {
-            cookieStore.set(name, value, options);
-          }
-        },
+  return createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    cookies: {
+      getAll() { return cookieStore.getAll(); },
+      setAll(cookiesToSet) {
+        for (const { name, value, options } of cookiesToSet) {
+          cookieStore.set(name, value, options);
+        }
       },
-    }
-  );
-  return _serverClient;
+    },
+  });
 }
 
 export async function getSession() {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return { data: { session: null }, error: null };
   const supabase = await createSupabaseClient();
   return supabase.auth.getSession();
 }
 
 export async function getUser() {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return null;
   const supabase = await createSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   return user;

@@ -1,21 +1,13 @@
-import { createSupabaseClient, getUser } from '@/lib/supabase/server';
+import { getUser } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import LogoutButton from '@/components/LogoutButton';
 
-exports.dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const user = await getUser();
   if (!user) redirect('/login');
-
-  const supabase = await createSupabaseClient();
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
-
-  const role = profile?.role || 'siswa';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -27,53 +19,29 @@ export default async function DashboardPage() {
             </div>
             <div>
               <h1 className="font-semibold text-gray-900">SMPN 1 Sijunjung</h1>
-              <p className="text-xs text-gray-500 capitalize">{role === 'guru_bk' ? 'Guru BK' : 'Siswa'}</p>
+              <p className="text-xs text-gray-500">Dashboard</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">{profile?.full_name || user.email}</span>
+            <span className="text-sm text-gray-600">{user.email}</span>
             <LogoutButton />
           </div>
         </div>
       </nav>
 
       <main className="max-w-6xl mx-auto px-6 py-8">
-        {role === 'guru_bk' ? (
-          <GuruDashboard profile={profile} />
-        ) : (
-          <SiswaDashboard profile={profile} />
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <DashboardCard href="/student/questionnaires" title="Isi Kuesioner" description="Kuesioner yang tersedia untuk kelas Anda" icon={<DocumentIcon />} />
+          <DashboardCard href="/student/appointments" title="Booking Konseling" description="Ajukan jadwal konseling" icon={<CalendarIcon />} />
+          <DashboardCard href="/student/anonymous" title="Pertanyaan Anonim" description="Ajukan pertanyaan tanpa nama" icon={<MessageIcon />} />
+          <DashboardCard href="/student/history" title="Riwayat Konseling" description="Lihat sesi konseling sebelumnya" icon={<ClockIcon />} />
+          <DashboardCard href="/counselor/students" title="Daftar Siswa" description="13 kelas, ~450 siswa" icon={<UsersIcon />} />
+          <DashboardCard href="/counselor/questionnaires" title="Kuesioner" description="Buat & kelola kuesioner" icon={<DocumentIcon />} />
+          <DashboardCard href="/counselor/appointments" title="Janji Temu" description="Kelola jadwal konseling" icon={<CalendarIcon />} />
+          <DashboardCard href="/counselor/attendance" title="Absensi & EWS" description="Monitoring kehadiran" icon={<ChartIcon />} />
+          <DashboardCard href="/counselor/reports" title="Laporan" description="Analisis & cetak laporan" icon={<FileIcon />} />
+        </div>
       </main>
-    </div>
-  );
-}
-
-function GuruDashboard({ profile }: { profile?: any }) {
-  return (
-    <div>
-      <h2 className="text-xl font-semibold mb-6">Dashboard Guru BK</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <DashboardCard href="/dashboard/students" title="Daftar Siswa" description="13 kelas, ~450 siswa" icon={<UsersIcon />} />
-        <DashboardCard href="/dashboard/questionnaires" title="Kuesioner" description="Buat & kelola kuesioner" icon={<DocumentIcon />} />
-        <DashboardCard href="/dashboard/appointments" title="Janji Temu" description="Kelola jadwal konseling" icon={<CalendarIcon />} />
-        <DashboardCard href="/dashboard/attendance" title="Absensi & EWS" description="Monitoring kehadiran" icon={<ChartIcon />} />
-        <DashboardCard href="/dashboard/anonymous" title="Pertanyaan Anonim" description="Jawab pertanyaan siswa" icon={<MessageIcon />} />
-        <DashboardCard href="/dashboard/reports" title="Laporan" description="Analisis & cetak laporan" icon={<FileIcon />} />
-      </div>
-    </div>
-  );
-}
-
-function SiswaDashboard({ profile }: { profile?: any }) {
-  return (
-    <div>
-      <h2 className="text-xl font-semibold mb-6">Dashboard Siswa</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <DashboardCard href="/student/questionnaires" title="Isi Kuesioner" description="Kuesioner yang tersedia untuk kelas Anda" icon={<DocumentIcon />} />
-        <DashboardCard href="/student/appointments" title="Booking Konseling" description="Ajukan jadwal konseling" icon={<CalendarIcon />} />
-        <DashboardCard href="/student/anonymous" title="Pertanyaan Anonim" description="Ajukan pertanyaan tanpa nama" icon={<MessageIcon />} />
-        <DashboardCard href="/student/history" title="Riwayat Konseling" description="Lihat sesi konseling sebelumnya" icon={<ClockIcon />} />
-      </div>
     </div>
   );
 }

@@ -2,8 +2,25 @@ import { createSupabaseClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
 
-exports.dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';
+
 export default async function LoginPage() {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center">
+          <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <span className="text-white font-bold text-2xl">!</span>
+          </div>
+          <h1 className="text-xl font-bold text-gray-900 mb-2">Konfigurasi Belum Lengkap</h1>
+          <p className="text-gray-500 text-sm">
+            Silakan setel variabel lingkungan SUPABASE_URL dan SUPABASE_ANON_KEY di Vercel Dashboard.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const supabase = await createSupabaseClient();
   const { data: { session } } = await supabase.auth.getSession();
 
