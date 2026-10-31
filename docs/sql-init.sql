@@ -6,14 +6,41 @@
 -- 1. 启用 UUID 扩展
 create extension if not exists "uuid-ossp";
 
--- 2. 创建枚举类型
-create type if not exists user_role as enum ('siswa', 'guru_bk');
-create type if not exists attendance_status as enum ('hadir', 'alpha', 'sakit', 'izin');
-create type if not exists appointment_status as enum ('pending', 'approved', 'rejected', 'completed', 'cancelled');
-create type if not exists session_status as enum ('scheduled', 'in_progress', 'completed', 'cancelled');
-create type if not exists violation_severity as enum ('ringan', 'sedang', 'berat');
-create type if not exists questionnaire_type as enum ('text', 'multiple_choice', 'rating', 'scale');
-create type if not exists anon_status as enum ('pending', 'answered', 'archived');
+-- 2. 创建枚举类型 (PostgreSQL 兼容语法)
+do $$ begin
+  create type user_role as enum ('siswa', 'guru_bk');
+exception when duplicate_object then null;
+end $$;
+
+do $$ begin
+  create type attendance_status as enum ('hadir', 'alpha', 'sakit', 'izin');
+exception when duplicate_object then null;
+end $$;
+
+do $$ begin
+  create type appointment_status as enum ('pending', 'approved', 'rejected', 'completed', 'cancelled');
+exception when duplicate_object then null;
+end $$;
+
+do $$ begin
+  create type session_status as enum ('scheduled', 'in_progress', 'completed', 'cancelled');
+exception when duplicate_object then null;
+end $$;
+
+do $$ begin
+  create type violation_severity as enum ('ringan', 'sedang', 'berat');
+exception when duplicate_object then null;
+end $$;
+
+do $$ begin
+  create type questionnaire_type as enum ('text', 'multiple_choice', 'rating', 'scale');
+exception when duplicate_object then null;
+end $$;
+
+do $$ begin
+  create type anon_status as enum ('pending', 'answered', 'archived');
+exception when duplicate_object then null;
+end $$;
 
 -- 3. 创建班级表
 create table if not exists classes (
