@@ -1,9 +1,15 @@
-import { createSupabaseClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
-exports.dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';
+
 export default async function LogoutPage() {
-  const supabase = await createSupabaseClient();
-  await supabase.auth.signOut();
-  redirect('/login');
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    return redirect('/login?error=not_configured');
+  }
+  // Client-side logout via form submission
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-gray-500">Logging out...</p>
+    </div>
+  );
 }
